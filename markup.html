@@ -1,0 +1,39 @@
+<?php
+    $session = \Bitrix\Main\Application::getInstance()->getSession();
+    $likedElements = $session->has('LIKED_ELEMENTS') ? $session->get('LIKED_ELEMENTS') : [];
+    $isAlreadyLiked = in_array($arResult['ID'], $likedElements);
+    $likesCount = (int)$arResult['PROPERTIES']['LIKES_COUNT']['VALUE'];
+?>
+
+<button 
+    class="like-btn js-like-btn <?= $isAlreadyLiked ? 'is-active' : '' ?>" 
+    data-id="<?= $arResult['ID'] ?>"
+    aria-label="Поставить лайк">
+    
+    <span class="like-btn__icon">
+        <?= $isAlreadyLiked ? '❤️' : '🤍' ?>
+    </span>
+    
+    <span class="like-btn__text">Лайк</span>
+    
+    (<span class="like-btn__count"><?= $likesCount ?></span>)
+</button>
+
+<style>
+
+.like-btn {
+    cursor: pointer;
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 4px;
+    transition: opacity 0.2s, border-color 0.2s;
+}
+.like-btn.is-active {
+    border-color: #ff4d4f;
+}
+.like-btn.is-loading {
+    opacity: 0.5;
+    pointer-events: none; 
+}
+</style>
